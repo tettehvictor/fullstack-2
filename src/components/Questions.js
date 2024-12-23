@@ -12,7 +12,8 @@ export default function Questions({ onChecked }) {
 
   const questions = useSelector(state => state.questions.queue[state.questions.trace]);
   const dispatch = useDispatch();
-
+ 
+  
   useEffect(() => {
     if (checked !== undefined) {
       dispatch(updateResult({ trace, checked }));

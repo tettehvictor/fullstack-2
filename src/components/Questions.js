@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useFetchQestion } from '../hooks/FetchQuestions'
-import { updateResult } from '../hooks/setResult'
+import { useFetchQestion } from '../hooks/FetchQuestions';
+import { updateResult } from '../hooks/setResult';
 
 export default function Questions({ onChecked }) {
-  const [checked, setChecked] = useState(undefined)
+  const [checked, setChecked] = useState(undefined);
   const { trace } = useSelector(state => state.questions);
   const result = useSelector(state => state.result.result);
-  const [{ isLoading, apiData, serverError }] = useFetchQestion() 
+  const [{ isLoading, apiData, serverError }] = useFetchQestion();
 
-  const questions = useSelector(state => state.questions.queue[state.questions.trace])
-  const dispatch = useDispatch()
+  const questions = useSelector(state => state.questions.queue[state.questions.trace]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (checked !== undefined) {
-      dispatch(updateResult({ trace, checked }))
+      dispatch(updateResult({ trace, checked }));
     }
-  }, [checked, trace])
+  }, [checked, trace, dispatch]);
 
   function onSelect(i) {
-    onChecked(i)
-    setChecked(i)
-    dispatch(updateResult({ trace, checked: i }))
+    onChecked(i);
+    setChecked(i);
+    dispatch(updateResult({ trace, checked: i }));
   }
 
-  if (isLoading) return <h3 className='text-light'>Loading...</h3>
+  if (isLoading) return <h3 className='text-light'>Loading...</h3>;
+  if (!questions) return <h3 className='text-light'>No questions available</h3>;
   if (serverError) {
     return (
       <div className='text-light'>
@@ -42,9 +43,8 @@ export default function Questions({ onChecked }) {
         {
           questions?.options.map((q, i) => (
             <li key={i}>
-              <input 
+              <input
                 type="radio"
-                value={false}
                 name="options"
                 id={`q${i}-option`}
                 onChange={() => onSelect(i)}
@@ -56,5 +56,5 @@ export default function Questions({ onChecked }) {
         }
       </ul>
     </div>
-  )
+  );
 }

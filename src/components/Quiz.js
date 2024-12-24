@@ -13,18 +13,24 @@ const Quiz = () => {
 
   function onNext() {
     if (check === undefined) {
-      alert('Please select an answer before moving to the next question');
-      return;
+        alert('Please select an answer before moving to the next question');
+        return;
     }
 
-    if (trace < queue.length - 1) {
-      dispatch(MoveNextQuestion());
-      if (result[trace] === undefined) {
-        dispatch(PushAnswer(check));
-      }
+    if (trace < queue.length) {
+        // Update the trace value by one using the moveNext action
+        dispatch(MoveNextQuestion());
+
+        // Insert a new result in the array
+        if (result.length <= trace) {
+            dispatch(PushAnswer(check));
+        }
+
+        // Reset the value of the checked variable
+        setChecked(undefined);
     }
-    setChecked(undefined);
-  }
+}
+
 
   function onPrev() {
     if (trace > 0) {

@@ -9,12 +9,12 @@ export const questionReducer = createSlice({
     },
     reducers : {
         startExamAction : (state, action) => {
-            let { question, answers } = action.payload
+           let { question, answers } = action.payload;
             return {
                 ...state,
-                queue : question,
-                answers
-            }
+                queue: Array.isArray(question) ? question : [], // Ensure it's an array
+                answers: Array.isArray(answers) ? answers : [], // Ensure answers are an array
+            };
         },
         moveNextAction : (state) => {
             return {

@@ -38,6 +38,7 @@ export default function Questions({ onChecked }) {
     return (
         <div className='questions'>
         <h2 className='text-light'>{questions?.question}</h2>
+        
 
         <ul key={questions?.id}>
             {
